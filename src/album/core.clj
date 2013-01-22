@@ -43,5 +43,3 @@
     (write-index "target/index.html" album-name photos)
     (write-pages album-name photos)))
 
-(defn test-album []
-  (xml->photos (get-photos-xml "5812648128218024273" (get-auth-key "axhixh@gmail.com" "4lternat3ggl"))))
