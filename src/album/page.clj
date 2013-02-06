@@ -9,7 +9,7 @@
                   [[:a (html/attr= :href "..")]]
                   (html/content (str year))
                   [:div.copyright]
-                  (html/content (str "&copy; Copyright 2006 - " (str year) ". Ashish Shrestha"))
+                  (html/html-content (str "&copy; Copyright 2006 - " (str year) ". Ashish Shrestha"))
                   [[:link (html/attr= :rel "next")]] 
                   (when (contains? next-photo :link) (html/set-attr :href (:link next-photo)))
                   [[:link (html/attr= :rel "prev")]] 
