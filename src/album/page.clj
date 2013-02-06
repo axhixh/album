@@ -3,9 +3,13 @@
 
 
 (html/deftemplate photo-page "page.html"
-                  [album photo prev-photo next-photo]
+                  [year album photo prev-photo next-photo]
                   [:title] 
                   (html/content (str (:name photo) " - " album))
+                  [[:a (html/attr= :href "..")]]
+                  (html/content (str year))
+                  [:div.copyright]
+                  (html/content (str "&copy; Copyright 2006 - " (str year) ". Ashish Shrestha"))
                   [[:link (html/attr= :rel "next")]] 
                   (when (contains? next-photo :link) (html/set-attr :href (:link next-photo)))
                   [[:link (html/attr= :rel "prev")]] 
@@ -32,22 +36,23 @@
                     (html/set-attr :href "index.html")))
 
 (defn generate-page 
-  [album prev-photo current-photo next-photo]
-  (apply str (photo-page album current-photo prev-photo next-photo)))
+  [year album prev-photo current-photo next-photo]
+  (apply str (photo-page year album current-photo prev-photo next-photo)))
 
-(defn write-page [album photos]
+(defn write-page [year album photos]
   (let [pp (first photos)
         cp (nth photos 1)
         np (last photos)]
-    (spit (str "target/" (:link cp)) (generate-page album pp cp np))))
+    (spit (str "target/" (:link cp)) (generate-page year album pp cp np))))
 
-(defn write-pages [album photos]
+(defn write-pages [year album photos]
   (for [grouped-photos (partition 3 1 (flatten (list {} photos {})))]
-    (write-page album grouped-photos)))
+    (write-page year album grouped-photos)))
 
 ;TODO move these to test files and convert them into proper tests
 (defn test-page[]
-  (println (generate-page "album"
+  (println (generate-page 2013
+                          "album"
                           {}
                           {:name "photo.jpg" :image "http://server/img.jpg"} 
                           {:link "http://server/next-img.html" :name "next-img.jpg" :thumbnail "http://server/next-img.jpg"} )))

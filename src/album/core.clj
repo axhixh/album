@@ -38,8 +38,8 @@
       (throw (Exception. "Unable to get photos for album"))
       (:body response))))
 
-(defn write-album [album-id album-name email password]
+(defn write-album [year album-id album-name email password]
   (let [photos (xml->photos (get-photos-xml album-id (get-auth-key email password)))]
-    (write-index "target/index.html" album-name photos)
-    (write-pages album-name photos)))
+    (write-index "target/index.html" album-name photos year)
+    (write-pages year album-name photos)))
 

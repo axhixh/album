@@ -7,13 +7,15 @@
                  [:img] (html/set-attr :src (:thumbnail photo) :title (:name photo) :alt (:name photo)))
 
 (html/deftemplate index-page "index.html"
-                  [album photos]
+                  [album photos year]
                   [:title] (html/content album)
                   [[:span (html/attr= :rel "self")]] (html/content album)
+                  [[:a (html/attr= :href "..")]](html/content (str year))
+                  [:div.copyright](html/content (str "&copy; Copyright 2006 - " (str year) ". Ashish Shrestha"))
                   [:div.thumbnail] (html/clone-for [photo photos] (html/substitute (thumbnail-model photo))))
 
-(defn write-index [filename album-name photos]
-  (spit filename (apply str (index-page album-name photos))))
+(defn write-index [filename album-name photos year]
+  (spit filename (apply str (index-page album-name photos year))))
 
 ; TODO convert to proper tests and move to test files
 (def test-photos
@@ -23,6 +25,6 @@
    {:name "photo4.jpg" :link "http://server/photo4.html" :thumbnail "http://server/thumbnail4.jpg"}])
 
 (defn test-index[]
-  (println (apply str (index-page "my-album" test-photos))))
+  (println (apply str (index-page "my-album" test-photos 2013))))
 
 
