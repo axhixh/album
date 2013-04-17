@@ -2,8 +2,24 @@
   (:require [clj-http.client :as client]
             [net.cgrand.enlive-html :as html])
   (:use [clojure.string :only [split-lines split]]
+	[clojure.tools.cli :only [cli]]
         [album.index :only [write-index]]
         [album.page :only [write-pages]]))
+
+(def -main
+  "the entry point of the application"
+  [& args]
+  (let [params (cli args
+                    ["-e" "--email" "Email"]
+                    ["-p" "--password" "Password"]
+                    ["-y" "--year" "Year" :default "2013"]
+                    ["-a" "--album" "Album Id"]
+                    ["-d" "--description" "Desription for the album"])
+  (write-album (:year args)
+               (:album args)
+               (:description args)
+               (:email args)
+               (:password args))))
 
 (defn get-auth-key
   [email passwd]
