@@ -6,21 +6,6 @@
         [album.index :only [write-index]]
         [album.page :only [write-pages]]))
 
-(def -main
-  "the entry point of the application"
-  [& args]
-  (let [params (cli args
-                    ["-e" "--email" "Email"]
-                    ["-p" "--password" "Password"]
-                    ["-y" "--year" "Year" :default "2013"]
-                    ["-a" "--album" "Album Id"]
-                    ["-d" "--description" "Desription for the album"])
-  (write-album (:year args)
-               (:album args)
-               (:description args)
-               (:email args)
-               (:password args))))
-
 (defn get-auth-key
   [email passwd]
   (let [response (client/post "https://www.google.com/accounts/ClientLogin" 
@@ -58,4 +43,20 @@
   (let [photos (xml->photos (get-photos-xml album-id (get-auth-key email password)))]
     (write-index "target/index.html" album-name photos year)
     (write-pages year album-name photos)))
+
+(defn -main
+  "the entry point of the application"
+  [& args]
+  (let [params (cli args
+                    ["-e" "--email" "Email"]
+                    ["-p" "--password" "Password"]
+                    ["-y" "--year" "Year" :default "2013"]
+                    ["-a" "--album" "Album Id"]
+                    ["-d" "--description" "Desription for the album"])]
+  (write-album (:year args)
+               (:album args)
+               (:description args)
+               (:email args)
+               (:password args))))
+
 
