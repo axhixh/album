@@ -2,19 +2,18 @@
 
 A Clojure script used to generate photo albums at http://www.axhixh.com.np
 
+## Build
+Use lein uberjar to build standalone jar file.
+
 ## Usage
-Used inside repl.
+  java -jar album-standalone.jar 
 
-lein repl
-
-(load "album/core")
-(in-ns 'album.core)
-(write-album "albumid" "album title" "email@gmail.com" "password")
-
-Generates HTML files in target directory.
+Will generate the usage help.
+i
+Generates HTML files in current directory.
 
 ## License
 
-Copyright © 2012 Ashish Shrestha
+Copyright © 2012 - 2013  Ashish Shrestha
 
 Distributed under the Eclipse Public License, the same as Clojure.
