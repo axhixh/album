@@ -7,4 +7,5 @@
                            [enlive "1.0.1"]
                            [org.clojure/tools.cli "0.2.2"]
                            [clj-http "0.6.3"]]
+            :main album.core
             :source-path "src")

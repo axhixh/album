@@ -4,7 +4,8 @@
   (:use [clojure.string :only [split-lines split]]
 	[clojure.tools.cli :only [cli]]
         [album.index :only [write-index]]
-        [album.page :only [write-pages]]))
+        [album.page :only [write-pages]])
+  (:gen-class :main true))
 
 (defn get-auth-key
   [email passwd]
@@ -47,16 +48,26 @@
 (defn -main
   "the entry point of the application"
   [& args]
-  (let [params (cli args
+  (let [[opts args banner] (cli args
                     ["-e" "--email" "Email"]
                     ["-p" "--password" "Password"]
                     ["-y" "--year" "Year" :default "2013"]
                     ["-a" "--album" "Album Id"]
-                    ["-d" "--description" "Desription for the album"])]
-  (write-album (:year args)
-               (:album args)
-               (:description args)
-               (:email args)
-               (:password args))))
+                    ["-d" "--description" "Desription for the album"]
+                    ["-h" "--help" "Show help" :flag true :default false])]
+    (when (:help opts)
+      (println banner)
+      (System/exit 0))
+    (if (and (:year opts)
+             (:album opts)
+             (:description opts)
+             (:email opts)
+             (:password opts))
+        (write-album (:year opts)
+               (:album opts)
+               (:description opts)
+               (:email opts)
+               (:password opts))
+        (println banner))))
 
 
