@@ -2,7 +2,7 @@
   (:require [clj-http.client :as client]
             [net.cgrand.enlive-html :as html])
   (:use [clojure.string :only [split-lines split]]
-	[clojure.tools.cli :only [cli]]
+	    [clojure.tools.cli :only [cli]]
         [album.index :only [write-index]]
         [album.page :only [write-pages]])
   (:gen-class :main true))
@@ -42,7 +42,7 @@
 
 (defn write-album [year album-id album-name email password]
   (let [photos (xml->photos (get-photos-xml album-id (get-auth-key email password)))]
-    (write-index "target/index.html" album-name photos year)
+    (write-index "index.html" album-name photos year)
     (write-pages year album-name photos)))
 
 (defn -main

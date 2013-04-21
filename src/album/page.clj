@@ -43,11 +43,16 @@
   (let [pp (first photos)
         cp (nth photos 1)
         np (last photos)]
-    (spit (str "target/" (:link cp)) (generate-page year album pp cp np))))
+    (println (str "writing file " (:link cp)))
+    (spit (:link cp) (generate-page year album pp cp np))
+    (:link cp)))
 
 (defn write-pages [year album photos]
-  (for [grouped-photos (partition 3 1 (flatten (list {} photos {})))]
-    (write-page year album grouped-photos)))
+  (let [padded (flatten (list {} photos {}))
+        grouped (partition 3 1 padded)]
+  (println (str "writing page for " (str (count photos)) " photos"))
+  (doseq [group grouped]
+    (write-page year album group))))
 
 ;TODO move these to test files and convert them into proper tests
 (defn test-page[]

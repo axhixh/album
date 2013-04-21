@@ -15,6 +15,7 @@
                   [:div.thumbnail] (html/clone-for [photo photos] (html/substitute (thumbnail-model photo))))
 
 (defn write-index [filename album-name photos year]
+  (println "writing the index file")
   (spit filename (apply str (index-page album-name photos year))))
 
 ; TODO convert to proper tests and move to test files
