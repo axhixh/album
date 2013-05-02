@@ -45,12 +45,23 @@
     (write-index "target/index.html" album-name photos year)
     (write-pages year album-name photos)))
 
+(defn get-password
+  "if password isn't set will ask for it"
+  [password]
+  (if (nil? password)
+    (let [console (. System console)
+          pwd (.readPassword console "[%s]" (object-array (list "Password: ")))]
+      pwd)
+    password))
+
 (defn -main
   "the entry point of the application"
   [& args]
   (let [[opts args banner] (cli args
                     ["-e" "--email" "Email"]
                     ["-p" "--password" "Password"]
+        
+        
                     ["-y" "--year" "Year" :default "2013"]
                     ["-a" "--album" "Album Id"]
                     ["-d" "--description" "Desription for the album"]
@@ -61,13 +72,12 @@
     (if (and (:year opts)
              (:album opts)
              (:description opts)
-             (:email opts)
-             (:password opts))
+             (:email opts))
         (write-album (:year opts)
                (:album opts)
                (:description opts)
                (:email opts)
-               (:password opts))
+               (get-password (:password opts)))
         (println banner))))
 
 
